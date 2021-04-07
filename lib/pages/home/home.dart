@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:insta_clone/domain/post/models/post_list.dart';
+import 'package:insta_clone/pages/app/post_notifier.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:insta_clone/models/comment.dart';
 import 'package:insta_clone/models/global.dart';
 import 'package:insta_clone/models/post.dart';
 import 'package:insta_clone/models/user.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  const HomePage();
 
-class _HomePageState extends State<HomePage> {
+  static Widget wrapped() {
+    return MultiProvider(
+      providers: [
+        StateNotifierProvider<PostNotifier, PostList>(
+          create: (context) => PostNotifier(),
+          child: const HomePage(),
+        ),
+      ],
+      child: const HomePage(),
+    );
+  }
+
   static int page = 1;
   static Post the_post = post1;
   @override
   Widget build(BuildContext context) {
     Map<int, Widget> pageview = {
-      1: getMain(),
+      1: getMain(context),
       2: getLikes(the_post.likes),
       3: getComments(the_post.comments)
     };
     return pageview[page] ?? SizedBox();
   }
 
-  Widget getMain() {
+  Widget getMain(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Instagram", style: textStyleBold),
@@ -108,15 +121,15 @@ class _HomePageState extends State<HomePage> {
                       icon: Icon(Icons.favorite),
                       color: post.isLiked ? Colors.red : Colors.white,
                       onPressed: () {
-                        setState(() {
-                          userPosts[index].isLiked =
-                              post.isLiked ? false : true;
-                          if (!post.isLiked) {
-                            post.likes.remove(user);
-                          } else {
-                            post.likes.add(user);
-                          }
-                        });
+                        // setState(() {
+                        //   userPosts[index].isLiked =
+                        //       post.isLiked ? false : true;
+                        //   if (!post.isLiked) {
+                        //     post.likes.remove(user);
+                        //   } else {
+                        //     post.likes.add(user);
+                        //   }
+                        // });
                       },
                     )
                   ],
@@ -165,14 +178,14 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.bookmark),
                   color: post.isSaved ? Colors.black : Colors.white,
                   onPressed: () {
-                    setState(() {
-                      userPosts[index].isSaved = post.isSaved ? false : true;
-                      if (!post.isSaved) {
-                        user.savedPosts.remove(post);
-                      } else {
-                        user.savedPosts.add(post);
-                      }
-                    });
+                    // setState(() {
+                    //   userPosts[index].isSaved = post.isSaved ? false : true;
+                    //   if (!post.isSaved) {
+                    //     user.savedPosts.remove(post);
+                    //   } else {
+                    //     user.savedPosts.add(post);
+                    //   }
+                    // });
                   },
                 )
               ],
@@ -185,11 +198,11 @@ class _HomePageState extends State<HomePage> {
             style: textStyleBold,
           ),
           onPressed: () {
-            setState(() {
-              the_post = post;
-              page = 2;
-              build(context);
-            });
+            // setState(() {
+            //   the_post = post;
+            //   page = 2;
+            //   build(context);
+            // });
           },
         ),
         Row(
@@ -213,11 +226,11 @@ class _HomePageState extends State<HomePage> {
             style: textStyleLigthGrey,
           ),
           onPressed: () {
-            setState(() {
-              the_post = post;
-              page = 3;
-              build(context);
-            });
+            // setState(() {
+            //   the_post = post;
+            //   page = 3;
+            //   build(context);
+            // });
           },
         ),
       ],
@@ -253,13 +266,13 @@ class _HomePageState extends State<HomePage> {
                                 ? Colors.grey
                                 : Colors.white)),
                     onPressed: () {
-                      setState(() {
-                        if (user.following.contains(follower)) {
-                          user.following.remove(follower);
-                        } else {
-                          user.following.add(follower);
-                        }
-                      });
+                      // setState(() {
+                      //   if (user.following.contains(follower)) {
+                      //     user.following.remove(follower);
+                      //   } else {
+                      //     user.following.add(follower);
+                      //   }
+                      // });
                     },
                   ),
                 )
@@ -279,10 +292,10 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
           ),
           onPressed: () {
-            setState(() {
-              page = 1;
-              build(context);
-            });
+            // setState(() {
+            //   page = 1;
+            //   build(context);
+            // });
           },
         ),
       ),
@@ -383,9 +396,9 @@ class _HomePageState extends State<HomePage> {
                                 comment.isLiked ? Colors.black : Colors.white,
                             size: 10),
                         onPressed: () {
-                          setState(() {
-                            comment.isLiked = comment.isLiked ? false : true;
-                          });
+                          // setState(() {
+                          //   comment.isLiked = comment.isLiked ? false : true;
+                          // });
                         },
                       ),
                     )
@@ -411,10 +424,10 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      setState(() {
-                        page = 1;
-                        build(context);
-                      });
+                      // setState(() {
+                      //   page = 1;
+                      //   build(context);
+                      // });
                     },
                   ),
                   Text(

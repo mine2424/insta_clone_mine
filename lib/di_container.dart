@@ -1,6 +1,7 @@
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
+import 'package:insta_clone/pages/app/states/user_state.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +20,11 @@ List<SingleChildWidget> get domainProviders {
 
 List<SingleChildWidget> get notifierProviders {
   return <SingleChildWidget>[
-    StateNotifierProvider(
+    StateNotifierProvider<UserNotifier, UserState>(
       create: (context) => UserNotifier(
         repository: context.read<UserRepository>(),
         service: context.read<UserService>(),
+        context: context,
       ),
     )
   ];

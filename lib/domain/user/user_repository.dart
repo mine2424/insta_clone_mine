@@ -5,20 +5,23 @@ import 'package:insta_clone/domain/user/models/user.dart';
 class UserRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<Result<bool>> addUser(
-    String uid,
-    String name,
-    String userImage,
-    String message,
-  ) async {
+  Future<Result<bool>> addUser({
+    required String uid,
+    required String name,
+    String? userImage,
+    String? message,
+  }) async {
     final doc = _db.doc('/private/users/$uid/writeOnly/');
 
     try {
-      doc.set({
-        'name': name,
-        'userImage': userImage,
-        'message': message,
-      });
+      doc.set(
+        {
+          'name': name,
+          'userImage': userImage,
+          'message': message,
+        },
+        SetOptions(merge: true),
+      );
     } catch (e) {
       return Result.error(e);
     }

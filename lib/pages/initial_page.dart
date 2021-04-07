@@ -10,7 +10,7 @@ class InitialPage extends StatefulWidget {
 }
 
 class _InitialPageState extends State<InitialPage> {
-  List<Widget> pages = [HomePage(), NotificationsPage(), ProfilePage()];
+  List<Widget> pages = [HomePage.wrapped(), NotificationsPage(), ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

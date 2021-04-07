@@ -7,7 +7,7 @@ class UserService {
 
   Result<String> getCurrentUserUid() {
     if (_auth.currentUser == null) {
-      return Result.error(AuthStatus.error);
+      return Result.error(AuthStatus.none);
     }
     return Result.value(_auth.currentUser!.uid);
   }
