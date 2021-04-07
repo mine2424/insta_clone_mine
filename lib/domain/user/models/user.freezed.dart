@@ -20,10 +20,16 @@ User _$UserFromJson(Map<String, dynamic> json) {
 class _$UserTearOff {
   const _$UserTearOff();
 
-  _User call({String id = '', String name = ''}) {
+  _User call(
+      {String id = '',
+      String name = '',
+      String message = '',
+      String userImage = ''}) {
     return _User(
       id: id,
       name: name,
+      message: message,
+      userImage: userImage,
     );
   }
 
@@ -39,6 +45,8 @@ const $User = _$UserTearOff();
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+  String get userImage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +57,7 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
-  $Res call({String id, String name});
+  $Res call({String id, String name, String message, String userImage});
 }
 
 /// @nodoc
@@ -64,6 +72,8 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? message = freezed,
+    Object? userImage = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -74,6 +84,14 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImage: userImage == freezed
+          ? _value.userImage
+          : userImage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -83,7 +101,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) then) =
       __$UserCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name});
+  $Res call({String id, String name, String message, String userImage});
 }
 
 /// @nodoc
@@ -99,6 +117,8 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? message = freezed,
+    Object? userImage = freezed,
   }) {
     return _then(_User(
       id: id == freezed
@@ -109,6 +129,14 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImage: userImage == freezed
+          ? _value.userImage
+          : userImage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -117,7 +145,9 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_User extends _User with DiagnosticableTreeMixin {
-  const _$_User({this.id = '', this.name = ''}) : super._();
+  const _$_User(
+      {this.id = '', this.name = '', this.message = '', this.userImage = ''})
+      : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) =>
       _$_$_UserFromJson(json);
@@ -128,10 +158,16 @@ class _$_User extends _User with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: '')
   @override
   final String name;
+  @JsonKey(defaultValue: '')
+  @override
+  final String message;
+  @JsonKey(defaultValue: '')
+  @override
+  final String userImage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(id: $id, name: $name)';
+    return 'User(id: $id, name: $name, message: $message, userImage: $userImage)';
   }
 
   @override
@@ -140,7 +176,9 @@ class _$_User extends _User with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'User'))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name));
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('userImage', userImage));
   }
 
   @override
@@ -150,14 +188,22 @@ class _$_User extends _User with DiagnosticableTreeMixin {
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality()
+                    .equals(other.message, message)) &&
+            (identical(other.userImage, userImage) ||
+                const DeepCollectionEquality()
+                    .equals(other.userImage, userImage)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name);
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(message) ^
+      const DeepCollectionEquality().hash(userImage);
 
   @JsonKey(ignore: true)
   @override
@@ -171,7 +217,8 @@ class _$_User extends _User with DiagnosticableTreeMixin {
 }
 
 abstract class _User extends User {
-  const factory _User({String id, String name}) = _$_User;
+  const factory _User(
+      {String id, String name, String message, String userImage}) = _$_User;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -180,6 +227,10 @@ abstract class _User extends User {
   String get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
+  @override
+  String get message => throw _privateConstructorUsedError;
+  @override
+  String get userImage => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

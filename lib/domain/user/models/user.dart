@@ -6,12 +6,9 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 enum AuthStatus {
-  noData,
+  none,
   error,
   waiting,
-  none,
-  anonymous,
-  emailPending,
   email,
 }
 
@@ -20,6 +17,8 @@ class User with _$User {
   const factory User({
     @Default('') String id,
     @Default('') String name,
+    @Default('') String message,
+    @Default('') String userImage,
   }) = _User;
 
   const User._();
