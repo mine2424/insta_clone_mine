@@ -24,12 +24,22 @@ class _$PostTearOff {
       {String id = '',
       String title = '',
       String content = '',
-      String postImage = ''}) {
+      String postImage = '',
+      User? user,
+      List<User> likes = const <User>[],
+      List<Comment> comments = const <Comment>[],
+      bool isLiked = false,
+      bool isSaved = false}) {
     return _Post(
       id: id,
       title: title,
       content: content,
       postImage: postImage,
+      user: user,
+      likes: likes,
+      comments: comments,
+      isLiked: isLiked,
+      isSaved: isSaved,
     );
   }
 
@@ -47,6 +57,11 @@ mixin _$Post {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get postImage => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
+  List<User> get likes => throw _privateConstructorUsedError;
+  List<Comment> get comments => throw _privateConstructorUsedError;
+  bool get isLiked => throw _privateConstructorUsedError;
+  bool get isSaved => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +72,18 @@ mixin _$Post {
 abstract class $PostCopyWith<$Res> {
   factory $PostCopyWith(Post value, $Res Function(Post) then) =
       _$PostCopyWithImpl<$Res>;
-  $Res call({String id, String title, String content, String postImage});
+  $Res call(
+      {String id,
+      String title,
+      String content,
+      String postImage,
+      User? user,
+      List<User> likes,
+      List<Comment> comments,
+      bool isLiked,
+      bool isSaved});
+
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -74,6 +100,11 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? title = freezed,
     Object? content = freezed,
     Object? postImage = freezed,
+    Object? user = freezed,
+    Object? likes = freezed,
+    Object? comments = freezed,
+    Object? isLiked = freezed,
+    Object? isSaved = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -92,7 +123,38 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.postImage
           : postImage // ignore: cast_nullable_to_non_nullable
               as String,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      likes: likes == freezed
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<User>,
+      comments: comments == freezed
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
+      isLiked: isLiked == freezed
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSaved: isSaved == freezed
+          ? _value.isSaved
+          : isSaved // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
+  }
+
+  @override
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value));
+    });
   }
 }
 
@@ -101,7 +163,19 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
   factory _$PostCopyWith(_Post value, $Res Function(_Post) then) =
       __$PostCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String title, String content, String postImage});
+  $Res call(
+      {String id,
+      String title,
+      String content,
+      String postImage,
+      User? user,
+      List<User> likes,
+      List<Comment> comments,
+      bool isLiked,
+      bool isSaved});
+
+  @override
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -119,6 +193,11 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? title = freezed,
     Object? content = freezed,
     Object? postImage = freezed,
+    Object? user = freezed,
+    Object? likes = freezed,
+    Object? comments = freezed,
+    Object? isLiked = freezed,
+    Object? isSaved = freezed,
   }) {
     return _then(_Post(
       id: id == freezed
@@ -137,6 +216,26 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.postImage
           : postImage // ignore: cast_nullable_to_non_nullable
               as String,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      likes: likes == freezed
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<User>,
+      comments: comments == freezed
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
+      isLiked: isLiked == freezed
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSaved: isSaved == freezed
+          ? _value.isSaved
+          : isSaved // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -144,10 +243,17 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_Post extends _Post with DiagnosticableTreeMixin {
+class _$_Post with DiagnosticableTreeMixin implements _Post {
   const _$_Post(
-      {this.id = '', this.title = '', this.content = '', this.postImage = ''})
-      : super._();
+      {this.id = '',
+      this.title = '',
+      this.content = '',
+      this.postImage = '',
+      this.user,
+      this.likes = const <User>[],
+      this.comments = const <Comment>[],
+      this.isLiked = false,
+      this.isSaved = false});
 
   factory _$_Post.fromJson(Map<String, dynamic> json) =>
       _$_$_PostFromJson(json);
@@ -164,10 +270,24 @@ class _$_Post extends _Post with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: '')
   @override
   final String postImage;
+  @override
+  final User? user;
+  @JsonKey(defaultValue: const <User>[])
+  @override
+  final List<User> likes;
+  @JsonKey(defaultValue: const <Comment>[])
+  @override
+  final List<Comment> comments;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isLiked;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isSaved;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Post(id: $id, title: $title, content: $content, postImage: $postImage)';
+    return 'Post(id: $id, title: $title, content: $content, postImage: $postImage, user: $user, likes: $likes, comments: $comments, isLiked: $isLiked, isSaved: $isSaved)';
   }
 
   @override
@@ -178,7 +298,12 @@ class _$_Post extends _Post with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('postImage', postImage));
+      ..add(DiagnosticsProperty('postImage', postImage))
+      ..add(DiagnosticsProperty('user', user))
+      ..add(DiagnosticsProperty('likes', likes))
+      ..add(DiagnosticsProperty('comments', comments))
+      ..add(DiagnosticsProperty('isLiked', isLiked))
+      ..add(DiagnosticsProperty('isSaved', isSaved));
   }
 
   @override
@@ -194,7 +319,19 @@ class _$_Post extends _Post with DiagnosticableTreeMixin {
                     .equals(other.content, content)) &&
             (identical(other.postImage, postImage) ||
                 const DeepCollectionEquality()
-                    .equals(other.postImage, postImage)));
+                    .equals(other.postImage, postImage)) &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.likes, likes) ||
+                const DeepCollectionEquality().equals(other.likes, likes)) &&
+            (identical(other.comments, comments) ||
+                const DeepCollectionEquality()
+                    .equals(other.comments, comments)) &&
+            (identical(other.isLiked, isLiked) ||
+                const DeepCollectionEquality()
+                    .equals(other.isLiked, isLiked)) &&
+            (identical(other.isSaved, isSaved) ||
+                const DeepCollectionEquality().equals(other.isSaved, isSaved)));
   }
 
   @override
@@ -203,7 +340,12 @@ class _$_Post extends _Post with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(postImage);
+      const DeepCollectionEquality().hash(postImage) ^
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(likes) ^
+      const DeepCollectionEquality().hash(comments) ^
+      const DeepCollectionEquality().hash(isLiked) ^
+      const DeepCollectionEquality().hash(isSaved);
 
   @JsonKey(ignore: true)
   @override
@@ -216,10 +358,17 @@ class _$_Post extends _Post with DiagnosticableTreeMixin {
   }
 }
 
-abstract class _Post extends Post {
+abstract class _Post implements Post {
   const factory _Post(
-      {String id, String title, String content, String postImage}) = _$_Post;
-  const _Post._() : super._();
+      {String id,
+      String title,
+      String content,
+      String postImage,
+      User? user,
+      List<User> likes,
+      List<Comment> comments,
+      bool isLiked,
+      bool isSaved}) = _$_Post;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
@@ -231,6 +380,16 @@ abstract class _Post extends Post {
   String get content => throw _privateConstructorUsedError;
   @override
   String get postImage => throw _privateConstructorUsedError;
+  @override
+  User? get user => throw _privateConstructorUsedError;
+  @override
+  List<User> get likes => throw _privateConstructorUsedError;
+  @override
+  List<Comment> get comments => throw _privateConstructorUsedError;
+  @override
+  bool get isLiked => throw _privateConstructorUsedError;
+  @override
+  bool get isSaved => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PostCopyWith<_Post> get copyWith => throw _privateConstructorUsedError;

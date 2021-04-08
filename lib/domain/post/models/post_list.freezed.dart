@@ -12,6 +12,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PostList _$PostListFromJson(Map<String, dynamic> json) {
+  return _PostList.fromJson(json);
+}
+
 /// @nodoc
 class _$PostListTearOff {
   const _$PostListTearOff();
@@ -20,6 +24,10 @@ class _$PostListTearOff {
     return _PostList(
       postList: postList,
     );
+  }
+
+  PostList fromJson(Map<String, Object> json) {
+    return PostList.fromJson(json);
   }
 }
 
@@ -30,6 +38,7 @@ const $PostList = _$PostListTearOff();
 mixin _$PostList {
   List<Post> get postList => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PostListCopyWith<PostList> get copyWith =>
       throw _privateConstructorUsedError;
@@ -93,9 +102,14 @@ class __$PostListCopyWithImpl<$Res> extends _$PostListCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
+
 /// @nodoc
 class _$_PostList with DiagnosticableTreeMixin implements _PostList {
   const _$_PostList({this.postList = const <Post>[]});
+
+  factory _$_PostList.fromJson(Map<String, dynamic> json) =>
+      _$_$_PostListFromJson(json);
 
   @JsonKey(defaultValue: const <Post>[])
   @override
@@ -131,10 +145,17 @@ class _$_PostList with DiagnosticableTreeMixin implements _PostList {
   @override
   _$PostListCopyWith<_PostList> get copyWith =>
       __$PostListCopyWithImpl<_PostList>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_PostListToJson(this);
+  }
 }
 
 abstract class _PostList implements PostList {
   const factory _PostList({List<Post> postList}) = _$_PostList;
+
+  factory _PostList.fromJson(Map<String, dynamic> json) = _$_PostList.fromJson;
 
   @override
   List<Post> get postList => throw _privateConstructorUsedError;

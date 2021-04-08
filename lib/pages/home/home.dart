@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:insta_clone/domain/post/models/post_list.dart';
-import 'package:insta_clone/pages/app/post_notifier.dart';
+import 'package:insta_clone/domain/post/models/comment.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:insta_clone/models/comment.dart';
-import 'package:insta_clone/models/global.dart';
-import 'package:insta_clone/models/post.dart';
-import 'package:insta_clone/models/user.dart';
+
+import 'package:insta_clone/common/constants/theme.dart';
+import 'package:insta_clone/domain/post/models/post.dart';
+import 'package:insta_clone/domain/post/models/post_list.dart';
+import 'package:insta_clone/domain/post/post_repository.dart';
+import 'package:insta_clone/domain/post/post_service.dart';
+import 'package:insta_clone/pages/app/post_notifier.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage();
@@ -15,7 +18,10 @@ class HomePage extends StatelessWidget {
     return MultiProvider(
       providers: [
         StateNotifierProvider<PostNotifier, PostList>(
-          create: (context) => PostNotifier(),
+          create: (context) => PostNotifier(
+            postRepository: context.read<PostRepository>(),
+            postService: context.read<PostService>(),
+          ),
           child: const HomePage(),
         ),
       ],
@@ -23,22 +29,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  static int page = 1;
-  static Post the_post = post1;
   @override
   Widget build(BuildContext context) {
-    Map<int, Widget> pageview = {
-      1: getMain(context),
-      2: getLikes(the_post.likes),
-      3: getComments(the_post.comments)
-    };
-    return pageview[page] ?? SizedBox();
-  }
-
-  Widget getMain(BuildContext context) {
+    final state = context.select((PostList value) => value);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Instagram", style: textStyleBold),
+        title: Text(
+          "Instagram",
+          style: TextStyleTheme.textStyleBold,
+        ),
         backgroundColor: Colors.white,
       ),
       body: Container(
@@ -47,7 +46,7 @@ class HomePage extends StatelessWidget {
           Column(
             children: <Widget>[
               Column(
-                children: getPosts(context),
+                children: getPosts(context, state),
               )
             ],
           )
@@ -56,10 +55,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<Widget> getPosts(BuildContext context) {
+  List<Widget> getPosts(BuildContext context, PostList state) {
     List<Widget> posts = [];
     int index = 0;
-    for (Post post in userPosts) {
+    // TODO: firestoreのpostのデータを挿入
+    for (var post in state.postList) {
       posts.add(getPost(context, post, index));
       index++;
     }
@@ -81,11 +81,11 @@ class HomePage extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(right: 10),
                     child: CircleAvatar(
-                      backgroundImage: post.user.profilePicture,
+                      backgroundImage: NetworkImage(post.user!.userImage),
                     ),
                   ),
                   Text(
-                    post.user.username,
+                    post.user!.name,
                   )
                 ],
               ),
@@ -102,7 +102,13 @@ class HomePage extends StatelessWidget {
         ),
         Container(
           constraints: BoxConstraints(maxHeight: 282),
-          decoration: BoxDecoration(image: DecorationImage(image: post.image)),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                post.postImage,
+              ),
+            ),
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,36 +172,12 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            Stack(
-              alignment: Alignment(0, 0),
-              children: <Widget>[
-                Icon(
-                  Icons.bookmark,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                IconButton(
-                  icon: Icon(Icons.bookmark),
-                  color: post.isSaved ? Colors.black : Colors.white,
-                  onPressed: () {
-                    // setState(() {
-                    //   userPosts[index].isSaved = post.isSaved ? false : true;
-                    //   if (!post.isSaved) {
-                    //     user.savedPosts.remove(post);
-                    //   } else {
-                    //     user.savedPosts.add(post);
-                    //   }
-                    // });
-                  },
-                )
-              ],
-            )
           ],
         ),
         FlatButton(
           child: Text(
             post.likes.length.toString() + " likes",
-            style: textStyleBold,
+            style: TextStyleTheme.textStyleBold,
           ),
           onPressed: () {
             // setState(() {
@@ -210,20 +192,20 @@ class HomePage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 15, right: 10),
               child: Text(
-                post.user.username,
-                style: textStyleBold,
+                post.user!.name,
+                style: TextStyleTheme.textStyleBold,
               ),
             ),
             Text(
-              post.description,
-              style: textStyle,
+              post.content,
+              style: TextStyleTheme.textStyle,
             )
           ],
         ),
         FlatButton(
           child: Text(
             "View all " + post.comments.length.toString() + " comments",
-            style: textStyleLigthGrey,
+            style: TextStyleTheme.textStyleLigthGrey,
           ),
           onPressed: () {
             // setState(() {
@@ -237,82 +219,14 @@ class HomePage extends StatelessWidget {
     ));
   }
 
-  Widget getLikes(List<User> likes) {
-    List<Widget> likers = [];
-    for (User follower in likes) {
-      likers.add(new Container(
-          height: 45,
-          padding: EdgeInsets.all(10),
-          child: FlatButton(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(follower.username, style: textStyleBold),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.all(Radius.circular(3))),
-                  child: FlatButton(
-                    color: user.following.contains(follower)
-                        ? Colors.white
-                        : Colors.blue,
-                    child: Text(
-                        user.following.contains(follower)
-                            ? "Following"
-                            : "Follow",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: user.following.contains(follower)
-                                ? Colors.grey
-                                : Colors.white)),
-                    onPressed: () {
-                      // setState(() {
-                      //   if (user.following.contains(follower)) {
-                      //     user.following.remove(follower);
-                      //   } else {
-                      //     user.following.add(follower);
-                      //   }
-                      // });
-                    },
-                  ),
-                )
-              ],
-            ),
-            onPressed: () {},
-          )));
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Likes", style: textStyleBold),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            // setState(() {
-            //   page = 1;
-            //   build(context);
-            // });
-          },
-        ),
-      ),
-      body: Container(
-        child: ListView(
-          children: likers,
-        ),
-      ),
-    );
-  }
-
+  // ページ遷移させるのでstateless classにしておく
   Widget getComments(List<Comment> likes) {
     List<Widget> likers = [];
     DateTime now = DateTime.now();
     for (Comment comment in likes) {
-      int hoursAgo = (now.hour) - (comment.dateOfComment.hour - 1);
-      likers.add(new Container(
+      int hoursAgo = (now.hour) - (comment.dateOfComment!.hour - 1);
+      likers.add(
+        Container(
           // height: 45,
           padding: EdgeInsets.all(10),
           child: FlatButton(
@@ -328,25 +242,27 @@ class HomePage extends StatelessWidget {
                       width: 30,
                       height: 30,
                       child: CircleAvatar(
-                        backgroundImage: comment.user.profilePicture,
+                        backgroundImage: NetworkImage(comment.user!.userImage),
                       ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         RichText(
-                          text: new TextSpan(
-                            style: new TextStyle(
+                          text: TextSpan(
+                            style: TextStyle(
                               fontSize: 14.0,
                               color: Colors.black,
                             ),
                             children: <TextSpan>[
-                              new TextSpan(
-                                  text: comment.user.username,
-                                  style: textStyleBold),
-                              new TextSpan(text: ' ', style: textStyle),
-                              new TextSpan(
-                                  text: comment.comment, style: textStyle),
+                              TextSpan(
+                                  text: comment.user!.name,
+                                  style: TextStyleTheme.textStyleBold),
+                              TextSpan(text: ' '),
+                              TextSpan(
+                                text: comment.comment,
+                                style: TextStyleTheme.textStyle,
+                              ),
                             ],
                           ),
                         ),
@@ -357,20 +273,20 @@ class HomePage extends StatelessWidget {
                               margin: EdgeInsets.only(right: 10, top: 20),
                               child: Text(
                                 hoursAgo.toString() + "h",
-                                style: textStyleLigthGrey,
+                                style: TextStyleTheme.textStyleLigthGrey,
                               ),
                             ),
                             Container(
                               child: Text(
                                 "like",
-                                style: textStyleLigthGrey,
+                                style: TextStyleTheme.textStyleLigthGrey,
                               ),
                               margin: EdgeInsets.only(right: 10, top: 20),
                             ),
                             Container(
                               child: Text(
                                 "Reply",
-                                style: textStyleLigthGrey,
+                                style: TextStyleTheme.textStyleLigthGrey,
                               ),
                               margin: EdgeInsets.only(right: 10, top: 20),
                             )
@@ -407,7 +323,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
             onPressed: () {},
-          )));
+          ),
+        ),
+      );
     }
 
     return Scaffold(
@@ -432,7 +350,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Text(
                     'Comments',
-                    style: textStyleBold,
+                    style: TextStyleTheme.textStyleBold,
                   )
                 ],
               ),

@@ -3,6 +3,7 @@ import 'package:insta_clone/domain/user/models/user.dart';
 import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
 import 'package:insta_clone/pages/app/states/user_state.dart';
+import 'package:insta_clone/pages/home/home.dart';
 import 'package:insta_clone/pages/sign_in/edit_profile_page.dart';
 import 'package:state_notifier/state_notifier.dart';
 
@@ -51,7 +52,7 @@ class UserNotifier extends StateNotifier<UserState> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => EditProfilePage.wrapped(),
+        builder: (_) => HomePage.wrapped(),
       ),
     );
   }
