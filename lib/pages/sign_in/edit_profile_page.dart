@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
-import 'package:insta_clone/pages/home/home.dart';
+import 'package:insta_clone/pages/home/home_page.dart';
 import 'package:insta_clone/pages/sign_in/sign_in_notifier.dart';
 import 'package:insta_clone/pages/sign_in/states/sign_in_state.dart';
 import 'package:insta_clone/widgets/profile_image.dart';
@@ -81,7 +81,7 @@ class EditProfilePage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage.wrapped(),
+                          builder: (context) => HomePage(),
                         ),
                       );
                     },

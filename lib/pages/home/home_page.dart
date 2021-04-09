@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:insta_clone/domain/post/models/comment.dart';
+import 'package:insta_clone/pages/home/create_post_page.dart';
+import 'package:insta_clone/pages/home/home_notifier.dart';
+import 'package:insta_clone/pages/home/states/home_state.dart';
 
 import 'package:provider/provider.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 
 import 'package:insta_clone/common/constants/theme.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
-import 'package:insta_clone/domain/post/post_repository.dart';
-import 'package:insta_clone/domain/post/post_service.dart';
-import 'package:insta_clone/pages/app/post_notifier.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage();
-
-  static Widget wrapped() {
-    return MultiProvider(
-      providers: [
-        StateNotifierProvider<PostNotifier, PostList>(
-          create: (context) => PostNotifier(
-            postRepository: context.read<PostRepository>(),
-            postService: context.read<PostService>(),
-          ),
-          child: const HomePage(),
-        ),
-      ],
-      child: const HomePage(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +22,20 @@ class HomePage extends StatelessWidget {
         title: Text(
           "Instagram",
           style: TextStyleTheme.textStyleBold,
+          textAlign: TextAlign.left,
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.add_box_outlined,
+            color: Colors.black,
+          ),
+          onPressed: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => CreatePostPage.wrapped(),
+              ),
+            );
+          },
         ),
         backgroundColor: Colors.white,
       ),

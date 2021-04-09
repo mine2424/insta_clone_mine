@@ -12,9 +12,6 @@ _$_Post _$_$_PostFromJson(Map<String, dynamic> json) {
     title: json['title'] as String? ?? '',
     content: json['content'] as String? ?? '',
     postImage: json['postImage'] as String? ?? '',
-    user: json['user'] == null
-        ? null
-        : User.fromJson(json['user'] as Map<String, dynamic>),
     likes: (json['likes'] as List<dynamic>?)
             ?.map((e) => User.fromJson(e as Map<String, dynamic>))
             .toList() ??
@@ -25,6 +22,9 @@ _$_Post _$_$_PostFromJson(Map<String, dynamic> json) {
         [],
     isLiked: json['isLiked'] as bool? ?? false,
     isSaved: json['isSaved'] as bool? ?? false,
+    user: json['user'] == null
+        ? null
+        : User.fromJson(json['user'] as Map<String, dynamic>),
   );
 }
 
@@ -33,9 +33,9 @@ Map<String, dynamic> _$_$_PostToJson(_$_Post instance) => <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
       'postImage': instance.postImage,
-      'user': instance.user,
       'likes': instance.likes,
       'comments': instance.comments,
       'isLiked': instance.isLiked,
       'isSaved': instance.isSaved,
+      'user': instance.user,
     };

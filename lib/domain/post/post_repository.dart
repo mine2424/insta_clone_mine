@@ -1,26 +1,26 @@
 import 'package:async/async.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:insta_clone/domain/post/models/comment.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
-import 'package:insta_clone/domain/post/post_service.dart';
 
 class PostRepository {
   final _db = FirebaseFirestore.instance;
 
   Future<void> addPost({
-    required PostService service,
-    required String title,
+    required String dateId,
     required String content,
     required String postImage,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/');
 
     try {
       await doc.set({
-        'title': title,
         'content': content,
         'postImage': postImage,
+        'createAt': FieldValue.serverTimestamp(),
       });
     } on Exception catch (e) {
       print(e);
@@ -28,13 +28,13 @@ class PostRepository {
   }
 
   Future<void> editPost({
-    required PostService service,
+    required String dateId,
     required String postId,
     required String title,
     required String content,
     required String postImage,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
 
     try {
       await doc.update({
@@ -48,10 +48,10 @@ class PostRepository {
   }
 
   Future<void> deletePost({
-    required PostService service,
+    required String dateId,
     required String postId,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
 
     try {
       await doc.delete();
@@ -60,8 +60,8 @@ class PostRepository {
     }
   }
 
-  Future<Result<PostList>> fetchPost({required PostService service}) async {
-    final doc = _db.collection('public/posts/${service.dateId}/readOnly/');
+  Future<Result<PostList>> fetchPost({required String dateId}) async {
+    final doc = _db.collection('public/posts/$dateId/readOnly/');
 
     late QuerySnapshot data;
 
@@ -88,15 +88,18 @@ class PostRepository {
   }
 
   Future<void> addComment({
-    required PostService service,
+    required String dateId,
     required String postId,
     required Map<String, dynamic> comment,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
 
     try {
       await doc.set(
-        {'comment': comment},
+        {
+          'comment': comment,
+          'createAt': FieldValue.serverTimestamp(),
+        },
         SetOptions(merge: true),
       );
     } on Exception catch (e) {
@@ -105,14 +108,14 @@ class PostRepository {
   }
 
   Future<void> editComment({
-    required PostService service,
+    required String dateId,
     required String postId,
     required String comment,
     required String dateOfComment,
     required int like,
     required String uid,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
 
     try {
       await doc.update({'comment': comment});
@@ -122,11 +125,11 @@ class PostRepository {
   }
 
   Future<void> deleteComment({
-    required PostService service,
+    required String dateId,
     required String postId,
     required List<Comment> list,
   }) async {
-    final doc = _db.doc('public/posts/${service.dateId}/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
 
     try {
       await doc.set({'comment': list});

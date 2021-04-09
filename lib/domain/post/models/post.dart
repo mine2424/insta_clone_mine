@@ -15,11 +15,11 @@ class Post with _$Post {
     @Default('') String title,
     @Default('') String content,
     @Default('') String postImage,
-    User? user,
     @Default(<User>[]) List<User> likes,
     @Default(<Comment>[]) List<Comment> comments,
     @Default(false) bool isLiked,
     @Default(false) bool isSaved,
+    User? user,
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
