@@ -4,5 +4,5 @@ import 'package:intl/intl.dart';
 class PostService {
   static get ntpTime => Helpers.ntpTime;
 
-  static get dateId => DateFormat('yyyy/MM/dd').format(ntpTime);
+  static get dateId async => DateFormat('yyyy/MM/dd').format(await ntpTime);
 }

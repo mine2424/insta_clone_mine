@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:insta_clone/domain/post/post_repository.dart';
-import 'package:insta_clone/domain/post/post_service.dart';
-import 'package:insta_clone/pages/home/home_notifier.dart';
-
 import 'package:insta_clone/pages/home/states/home_state.dart';
-
 import 'package:provider/provider.dart';
+
+import 'package:insta_clone/domain/post/post_repository.dart';
+import 'package:insta_clone/pages/app/states/user_state.dart';
+import 'package:insta_clone/pages/home/home_notifier.dart';
 
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage._();
@@ -27,8 +27,10 @@ class CreatePostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((UserState value) => value).user;
     final state = context.select((HomeState value) => value);
     final notifier = context.read<HomeNotifier>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -50,13 +52,16 @@ class CreatePostPage extends StatelessWidget {
               height: MediaQuery.of(context).size.height / 2,
               width: double.infinity,
               color: Colors.grey[200],
-              child:
-                  //Image.file(state.postImageFile!, fit: BoxFit.cover)
-                  const Icon(
-                Icons.image,
-                color: Colors.grey,
-                size: 120.0,
-              ),
+              child: (state.postImageFile == null)
+                  ? const Icon(
+                      Icons.image,
+                      color: Colors.grey,
+                      size: 120.0,
+                    )
+                  : Image.file(
+                      state.postImageFile!,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           Padding(
@@ -79,9 +84,8 @@ class CreatePostPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    await context
-                        .read<HomeNotifier>()
-                        .addPost('title', 'content', 'postImage');
+                    await context.read<HomeNotifier>().addPost(user);
+
                     Navigator.of(context).pop();
                   },
                   child: const Text('Post'),

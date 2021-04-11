@@ -7,14 +7,14 @@ import 'package:state_notifier/state_notifier.dart';
 
 class PostNotifier extends StateNotifier<PostList> {
   PostNotifier({required this.postRepository}) : super(const PostList()) {
-    // fetchPost();
+    fetchPost();
   }
 
   final PostRepository postRepository;
 
   Future<void> fetchPost() async {
     final allPostsResult =
-        await postRepository.fetchPost(dateId: PostService.dateId);
+        await postRepository.fetchPost(dateId: await PostService.dateId);
 
     if (allPostsResult.isError) {
       // TODO: エラー処理追加
@@ -23,6 +23,6 @@ class PostNotifier extends StateNotifier<PostList> {
 
     final allPosts = allPostsResult.asValue!.value;
 
-    state = state.copyWith(postList: allPosts as List<Post>);
+    state = state.copyWith(postList: allPosts);
   }
 }

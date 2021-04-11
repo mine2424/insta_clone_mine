@@ -1,25 +1,46 @@
+import 'dart:io';
+
 import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:insta_clone/domain/post/models/comment.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
+import 'package:insta_clone/domain/user/models/user.dart';
 
 class PostRepository {
   final _db = FirebaseFirestore.instance;
+  final _storage = FirebaseStorage.instance;
+
+  Future<String> addPostImageToStorage(
+    String path,
+    File file,
+  ) async {
+    final snapshot = await _storage.ref(path).putFile(file);
+
+    return snapshot.ref.getDownloadURL();
+  }
 
   Future<void> addPost({
     required String dateId,
+    required String postId,
     required String content,
     required String postImage,
+    required User user,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
       await doc.set({
         'content': content,
         'postImage': postImage,
+        'user': {
+          'name': user.name,
+          'uid': user.id,
+          'userImage': user.userImage,
+        },
         'createAt': FieldValue.serverTimestamp(),
       });
     } on Exception catch (e) {
@@ -34,14 +55,16 @@ class PostRepository {
     required String content,
     required String postImage,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
-      await doc.update({
-        'title': title,
-        'content': content,
-        'postImage': postImage,
-      });
+      await doc.update(
+        {
+          'title': title,
+          'content': content,
+          'postImage': postImage,
+        },
+      );
     } on Exception catch (e) {
       print(e);
     }
@@ -51,7 +74,7 @@ class PostRepository {
     required String dateId,
     required String postId,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
       await doc.delete();
@@ -60,8 +83,8 @@ class PostRepository {
     }
   }
 
-  Future<Result<PostList>> fetchPost({required String dateId}) async {
-    final doc = _db.collection('public/posts/$dateId/readOnly/');
+  Future<Result<List<Post>>> fetchPost({required String dateId}) async {
+    final doc = _db.collection('public/posts/$dateId/');
 
     late QuerySnapshot data;
 
@@ -79,12 +102,12 @@ class PostRepository {
     }
 
     for (var item in data.docs) {
-      final doc = item.data()!;
+      final doc = item.data();
 
       list.add(Post.fromJson(doc));
     }
 
-    return Result.value(PostList(postList: list));
+    return Result.value(list);
   }
 
   Future<void> addComment({
@@ -92,7 +115,7 @@ class PostRepository {
     required String postId,
     required Map<String, dynamic> comment,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
       await doc.set(
@@ -115,7 +138,7 @@ class PostRepository {
     required int like,
     required String uid,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
       await doc.update({'comment': comment});
@@ -129,7 +152,7 @@ class PostRepository {
     required String postId,
     required List<Comment> list,
   }) async {
-    final doc = _db.doc('public/posts/$dateId/writeOnly/$postId');
+    final doc = _db.doc('public/posts/$dateId/$postId');
 
     try {
       await doc.set({'comment': list});

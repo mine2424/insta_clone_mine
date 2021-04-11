@@ -18,6 +18,16 @@ class UserNotifier extends StateNotifier<UserState> {
   UserService service;
   final BuildContext context;
 
+  String getCurrentUserUid() {
+    final uidResult = service.getCurrentUserUid();
+
+    if (uidResult.isError) {
+      // TODO: dialog表示
+    }
+
+    return uidResult.asValue!.value;
+  }
+
   void listenAuthStatus() {
     final result = service.getCurrentUserUid();
 
@@ -30,26 +40,26 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> addUser(String name, String email, String password) async {
-//     final result = await service.signUpEmail(
-//       email: email,
-//       password: password,
-//     );
-//
-//     if (result.isError) {
-//       // TODO: dialog表示
-//       return;
-//     }
-//
-//     final getUidResult = service.getCurrentUserUid();
-//
-//     final uid = getUidResult.asValue!.value;
-//
-//     final addUserResult = await repository.addUser(uid: uid, name: name);
-//
-//     if (addUserResult.isError) {
-//       // TODO: dialog表示
-//       return;
-//     }
+    final result = await service.signUpEmail(
+      email: email,
+      password: password,
+    );
+
+    if (result.isError) {
+      // TODO: dialog表示
+      return;
+    }
+
+    final uid = getCurrentUserUid();
+
+    final addUserResult = await repository.addUser(uid: uid, name: name);
+
+    if (addUserResult.isError) {
+      // TODO: dialog表示
+      return;
+    }
+
+    fetchUser(uid);
 
     await Navigator.push(
       context,
@@ -86,5 +96,19 @@ class UserNotifier extends StateNotifier<UserState> {
 
       // TODO: dialog表示
     }
+  }
+
+  Future<void> fetchUser(String uid) async {
+    final uid = getCurrentUserUid();
+
+    final userResult = await repository.fetchUser(uid);
+
+    if (userResult.isError) {
+      // TODO: dialog表示
+    }
+
+    final user = userResult.asValue!.value;
+
+    state = state.copyWith(user: user);
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:insta_clone/domain/user/models/user.dart';
+import 'package:insta_clone/pages/app/states/user_state.dart';
+import 'package:insta_clone/pages/sign_in/sign_in_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -31,15 +34,30 @@ class ConfigPage extends StatefulWidget {
 class _ConfigPageState extends State<ConfigPage> {
   @override
   void initState() {
-    // TODO: implement initState
-    context.read<UserNotifier>().listenAuthStatus();
-
     super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      judgeAuthStatus();
+    });
+  }
+
+  void judgeAuthStatus() async {
+    final userNotifier = context.read<UserNotifier>();
+
+    userNotifier.listenAuthStatus();
+
+    final userState = context.read<UserState>();
+
+    if (userState.authStatus == AuthStatus.email) {
+      final uid = userNotifier.getCurrentUserUid();
+      await userNotifier.fetchUser(uid);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return HomePage();
-    // body: InitialPage(), //SignInPage(),
+    final authStatus = context.select((UserState value) => value).authStatus;
+
+    return (authStatus == AuthStatus.email) ? HomePage() : SignInPage();
   }
 }

@@ -31,6 +31,7 @@ class UserRepository {
 
   Future<Result<User>> fetchUser(String uid) async {
     DocumentSnapshot snapshot;
+    // TODO: readOnlyへデータを送る
     final doc = _db.doc('private/users/$uid/readOnly');
 
     try {
