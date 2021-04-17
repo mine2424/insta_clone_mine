@@ -4,7 +4,6 @@ import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
 import 'package:insta_clone/pages/app/states/user_state.dart';
 import 'package:insta_clone/pages/home/home_page.dart';
-import 'package:insta_clone/pages/sign_in/edit_profile_page.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 class UserNotifier extends StateNotifier<UserState> {
@@ -105,6 +104,7 @@ class UserNotifier extends StateNotifier<UserState> {
 
     if (userResult.isError) {
       // TODO: dialog表示
+      return;
     }
 
     final user = userResult.asValue!.value;

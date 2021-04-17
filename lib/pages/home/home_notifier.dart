@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:async/async.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/domain/post/post_repository.dart';
 import 'package:insta_clone/domain/post/post_service.dart';

@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:insta_clone/domain/post/models/comment.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
-import 'package:insta_clone/domain/post/models/post_list.dart';
 import 'package:insta_clone/domain/user/models/user.dart';
 
 class PostRepository {

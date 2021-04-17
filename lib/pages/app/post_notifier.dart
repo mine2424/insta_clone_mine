@@ -1,4 +1,3 @@
-import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
 import 'package:insta_clone/domain/post/post_repository.dart';
 import 'package:insta_clone/domain/post/post_service.dart';

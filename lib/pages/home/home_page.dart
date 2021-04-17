@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:insta_clone/domain/post/models/comment.dart';
-import 'package:insta_clone/pages/home/create_post_page.dart';
-import 'package:insta_clone/pages/home/home_notifier.dart';
-import 'package:insta_clone/pages/home/states/home_state.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:insta_clone/domain/post/models/comment.dart';
+import 'package:insta_clone/pages/home/create_post_page.dart';
 import 'package:insta_clone/common/constants/theme.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
