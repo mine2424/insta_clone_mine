@@ -8,7 +8,7 @@ part 'user_state.freezed.dart';
 @freezed
 class UserState with _$UserState {
   const factory UserState({
-    @Default(AuthStatus.waiting) AuthStatus authStatus,
+    @Default(UserStatus.waiting) UserStatus userStatus,
     @Default(User()) User user,
   }) = _UserState;
 }

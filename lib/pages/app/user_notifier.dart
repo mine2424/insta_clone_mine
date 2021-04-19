@@ -1,71 +1,64 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_clone/pages/app/app_notifier.dart';
+import 'package:insta_clone/widgets/dialog/error_dialog.dart';
+
+import 'package:state_notifier/state_notifier.dart';
+
 import 'package:insta_clone/domain/user/models/user.dart';
 import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
 import 'package:insta_clone/pages/app/states/user_state.dart';
-import 'package:insta_clone/pages/home/home_page.dart';
-import 'package:state_notifier/state_notifier.dart';
 
 class UserNotifier extends StateNotifier<UserState> {
   UserNotifier({
     required this.repository,
     required this.service,
+    required this.appNotifier,
     required this.context,
   }) : super(const UserState());
 
-  UserRepository repository;
-  UserService service;
+  final UserRepository repository;
+  final UserService service;
+  final AppNotifier appNotifier;
   final BuildContext context;
 
-  String getCurrentUserUid() {
-    final uidResult = service.getCurrentUserUid();
-
-    if (uidResult.isError) {
-      // TODO: dialog表示
-    }
-
-    return uidResult.asValue!.value;
-  }
-
   void listenAuthStatus() {
-    final result = service.getCurrentUserUid();
+    final result = service.userId;
 
-    if (result.isError) {
-      state = state.copyWith(authStatus: AuthStatus.none);
+    //TODO: エラーなのかただユーザー登録されていないのかどっち？
+    if (result == '') {
+      state = state.copyWith(userStatus: UserStatus.none);
       return;
     }
-    state = state.copyWith(authStatus: AuthStatus.email);
-    print(result.asValue!.value);
+
+    state = state.copyWith(userStatus: UserStatus.email);
+    print(result);
   }
 
-  Future<void> addUser(String name, String email, String password) async {
+  Future<UserStatus> addUser(String name, String email, String password) async {
     final result = await service.signUpEmail(
       email: email,
       password: password,
     );
 
     if (result.isError) {
-      // TODO: dialog表示
-      return;
+      //TODO: ここで使うにはappNotifierにglobalKeyとしてのcontextを設ける必要がある.
+      // ErrorDialog('サインインできませんでした。\nインターネット環境をご確認ください').show(context);
+      return UserStatus.error;
     }
 
-    final uid = getCurrentUserUid();
+    final uid = service.userId;
 
     final addUserResult = await repository.addUser(uid: uid, name: name);
 
     if (addUserResult.isError) {
-      // TODO: dialog表示
-      return;
+      // ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+      return UserStatus.error;
     }
 
     fetchUser(uid);
-
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => HomePage(),
-      ),
-    );
+    return UserStatus.success;
   }
 
   Future<void> addUserInfo(
@@ -73,15 +66,7 @@ class UserNotifier extends StateNotifier<UserState> {
     String userImage,
     String message,
   ) async {
-    final getUidResult = service.getCurrentUserUid();
-
-    if (getUidResult.isError) {
-      return;
-
-      // TODO: dialog表示
-    }
-
-    final uid = getUidResult.asValue!.value;
+    final uid = service.userId;
 
     final addUserResult = await repository.addUser(
       name: name,
@@ -91,19 +76,18 @@ class UserNotifier extends StateNotifier<UserState> {
     );
 
     if (addUserResult.isError) {
+      // ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
       return;
-
-      // TODO: dialog表示
     }
   }
 
   Future<void> fetchUser(String uid) async {
-    final uid = getCurrentUserUid();
+    final uid = service.userId;
 
     final userResult = await repository.fetchUser(uid);
 
     if (userResult.isError) {
-      // TODO: dialog表示
+      // ErrorDialog('ユーザー情報取得時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
       return;
     }
 

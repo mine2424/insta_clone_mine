@@ -1,16 +1,10 @@
 import 'package:async/async.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:insta_clone/domain/user/models/user.dart';
 
 class UserService {
   final _auth = FirebaseAuth.instance;
 
-  Result<String> getCurrentUserUid() {
-    if (_auth.currentUser == null) {
-      return Result.error(AuthStatus.none);
-    }
-    return Result.value(_auth.currentUser!.uid);
-  }
+  String get userId => _auth.currentUser?.uid ?? '';
 
   Future<Result<String>> signUpEmail({
     required String email,

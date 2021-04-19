@@ -17,9 +17,9 @@ class _$UserStateTearOff {
   const _$UserStateTearOff();
 
   _UserState call(
-      {AuthStatus authStatus = AuthStatus.waiting, User user = const User()}) {
+      {UserStatus userStatus = UserStatus.waiting, User user = const User()}) {
     return _UserState(
-      authStatus: authStatus,
+      userStatus: userStatus,
       user: user,
     );
   }
@@ -30,7 +30,7 @@ const $UserState = _$UserStateTearOff();
 
 /// @nodoc
 mixin _$UserState {
-  AuthStatus get authStatus => throw _privateConstructorUsedError;
+  UserStatus get userStatus => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -42,7 +42,7 @@ mixin _$UserState {
 abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res>;
-  $Res call({AuthStatus authStatus, User user});
+  $Res call({UserStatus userStatus, User user});
 
   $UserCopyWith<$Res> get user;
 }
@@ -57,14 +57,14 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? authStatus = freezed,
+    Object? userStatus = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
-      authStatus: authStatus == freezed
-          ? _value.authStatus
-          : authStatus // ignore: cast_nullable_to_non_nullable
-              as AuthStatus,
+      userStatus: userStatus == freezed
+          ? _value.userStatus
+          : userStatus // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -86,7 +86,7 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
           _UserState value, $Res Function(_UserState) then) =
       __$UserStateCopyWithImpl<$Res>;
   @override
-  $Res call({AuthStatus authStatus, User user});
+  $Res call({UserStatus userStatus, User user});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -103,14 +103,14 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? authStatus = freezed,
+    Object? userStatus = freezed,
     Object? user = freezed,
   }) {
     return _then(_UserState(
-      authStatus: authStatus == freezed
-          ? _value.authStatus
-          : authStatus // ignore: cast_nullable_to_non_nullable
-              as AuthStatus,
+      userStatus: userStatus == freezed
+          ? _value.userStatus
+          : userStatus // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -122,18 +122,18 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_UserState with DiagnosticableTreeMixin implements _UserState {
   const _$_UserState(
-      {this.authStatus = AuthStatus.waiting, this.user = const User()});
+      {this.userStatus = UserStatus.waiting, this.user = const User()});
 
-  @JsonKey(defaultValue: AuthStatus.waiting)
+  @JsonKey(defaultValue: UserStatus.waiting)
   @override
-  final AuthStatus authStatus;
+  final UserStatus userStatus;
   @JsonKey(defaultValue: const User())
   @override
   final User user;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState(authStatus: $authStatus, user: $user)';
+    return 'UserState(userStatus: $userStatus, user: $user)';
   }
 
   @override
@@ -141,7 +141,7 @@ class _$_UserState with DiagnosticableTreeMixin implements _UserState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserState'))
-      ..add(DiagnosticsProperty('authStatus', authStatus))
+      ..add(DiagnosticsProperty('userStatus', userStatus))
       ..add(DiagnosticsProperty('user', user));
   }
 
@@ -149,9 +149,9 @@ class _$_UserState with DiagnosticableTreeMixin implements _UserState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _UserState &&
-            (identical(other.authStatus, authStatus) ||
+            (identical(other.userStatus, userStatus) ||
                 const DeepCollectionEquality()
-                    .equals(other.authStatus, authStatus)) &&
+                    .equals(other.userStatus, userStatus)) &&
             (identical(other.user, user) ||
                 const DeepCollectionEquality().equals(other.user, user)));
   }
@@ -159,7 +159,7 @@ class _$_UserState with DiagnosticableTreeMixin implements _UserState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(authStatus) ^
+      const DeepCollectionEquality().hash(userStatus) ^
       const DeepCollectionEquality().hash(user);
 
   @JsonKey(ignore: true)
@@ -169,10 +169,10 @@ class _$_UserState with DiagnosticableTreeMixin implements _UserState {
 }
 
 abstract class _UserState implements UserState {
-  const factory _UserState({AuthStatus authStatus, User user}) = _$_UserState;
+  const factory _UserState({UserStatus userStatus, User user}) = _$_UserState;
 
   @override
-  AuthStatus get authStatus => throw _privateConstructorUsedError;
+  UserStatus get userStatus => throw _privateConstructorUsedError;
   @override
   User get user => throw _privateConstructorUsedError;
   @override

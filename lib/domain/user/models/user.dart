@@ -5,9 +5,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
 
-enum AuthStatus {
+enum UserStatus {
   none,
   error,
+  success,
   waiting,
   email,
 }
