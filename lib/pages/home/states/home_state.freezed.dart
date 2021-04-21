@@ -16,14 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  _HomeState call(
-      {@fileKey File? postImageFile,
-      String postImage = '',
-      String content = ''}) {
+  _HomeState call({@fileKey File? postImageFile, String postImage = ''}) {
     return _HomeState(
       postImageFile: postImageFile,
       postImage: postImage,
-      content: content,
     );
   }
 }
@@ -36,7 +32,6 @@ mixin _$HomeState {
   @fileKey
   File? get postImageFile => throw _privateConstructorUsedError;
   String get postImage => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -47,7 +42,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({@fileKey File? postImageFile, String postImage, String content});
+  $Res call({@fileKey File? postImageFile, String postImage});
 }
 
 /// @nodoc
@@ -62,7 +57,6 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   $Res call({
     Object? postImageFile = freezed,
     Object? postImage = freezed,
-    Object? content = freezed,
   }) {
     return _then(_value.copyWith(
       postImageFile: postImageFile == freezed
@@ -72,10 +66,6 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
       postImage: postImage == freezed
           ? _value.postImage
           : postImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: content == freezed
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -87,7 +77,7 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _HomeState value, $Res Function(_HomeState) then) =
       __$HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({@fileKey File? postImageFile, String postImage, String content});
+  $Res call({@fileKey File? postImageFile, String postImage});
 }
 
 /// @nodoc
@@ -103,7 +93,6 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? postImageFile = freezed,
     Object? postImage = freezed,
-    Object? content = freezed,
   }) {
     return _then(_HomeState(
       postImageFile: postImageFile == freezed
@@ -114,18 +103,13 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.postImage
           : postImage // ignore: cast_nullable_to_non_nullable
               as String,
-      content: content == freezed
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
 
 /// @nodoc
 class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
-  const _$_HomeState(
-      {@fileKey this.postImageFile, this.postImage = '', this.content = ''});
+  const _$_HomeState({@fileKey this.postImageFile, this.postImage = ''});
 
   @override
   @fileKey
@@ -133,13 +117,10 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   @JsonKey(defaultValue: '')
   @override
   final String postImage;
-  @JsonKey(defaultValue: '')
-  @override
-  final String content;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(postImageFile: $postImageFile, postImage: $postImage, content: $content)';
+    return 'HomeState(postImageFile: $postImageFile, postImage: $postImage)';
   }
 
   @override
@@ -148,8 +129,7 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
     properties
       ..add(DiagnosticsProperty('type', 'HomeState'))
       ..add(DiagnosticsProperty('postImageFile', postImageFile))
-      ..add(DiagnosticsProperty('postImage', postImage))
-      ..add(DiagnosticsProperty('content', content));
+      ..add(DiagnosticsProperty('postImage', postImage));
   }
 
   @override
@@ -161,17 +141,14 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
                     .equals(other.postImageFile, postImageFile)) &&
             (identical(other.postImage, postImage) ||
                 const DeepCollectionEquality()
-                    .equals(other.postImage, postImage)) &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality().equals(other.content, content)));
+                    .equals(other.postImage, postImage)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(postImageFile) ^
-      const DeepCollectionEquality().hash(postImage) ^
-      const DeepCollectionEquality().hash(content);
+      const DeepCollectionEquality().hash(postImage);
 
   @JsonKey(ignore: true)
   @override
@@ -180,18 +157,14 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState(
-      {@fileKey File? postImageFile,
-      String postImage,
-      String content}) = _$_HomeState;
+  const factory _HomeState({@fileKey File? postImageFile, String postImage}) =
+      _$_HomeState;
 
   @override
   @fileKey
   File? get postImageFile => throw _privateConstructorUsedError;
   @override
   String get postImage => throw _privateConstructorUsedError;
-  @override
-  String get content => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$HomeStateCopyWith<_HomeState> get copyWith =>

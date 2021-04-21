@@ -1,19 +1,43 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
-import 'package:insta_clone/domain/post/models/comment.dart';
-import 'package:insta_clone/pages/home/create_post_page.dart';
 import 'package:insta_clone/common/constants/theme.dart';
-import 'package:insta_clone/domain/post/models/post.dart';
+import 'package:insta_clone/domain/post/post_repository.dart';
+import 'package:insta_clone/pages/app/app_notifier.dart';
+import 'package:insta_clone/pages/home/home_notifier.dart';
+import 'package:insta_clone/pages/home/states/home_state.dart';
+import 'package:insta_clone/domain/post/models/comment.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
+import 'package:insta_clone/domain/post/models/post.dart';
+import 'package:insta_clone/widgets/modal/post_modal.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage();
+  const HomePage._();
+
+  static Widget wrapped() {
+    return MultiProvider(
+      providers: [
+        StateNotifierProvider<HomeNotifier, HomeState>(
+          create: (context) => HomeNotifier(
+            postRepository: context.read<PostRepository>(),
+            appNotifier: context.read<AppNotifier>(),
+          ),
+          child: const HomePage._(),
+        ),
+      ],
+      child: const HomePage._(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((PostList value) => value);
+    final notifier = context.read<HomeNotifier>();
+    final postList = context.watch<PostList>().postList;
+    final postImageFile =
+        context.select((HomeState value) => value).postImageFile;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -26,40 +50,22 @@ class HomePage extends StatelessWidget {
             Icons.add_box_outlined,
             color: Colors.black,
           ),
-          onPressed: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => CreatePostPage.wrapped(),
-              ),
-            );
+          onPressed: () {
+            PostModal(
+              notifier: notifier,
+              postImageFile: postImageFile,
+            ).show(context);
           },
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
-          child: ListView(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Column(
-                children: getPosts(context, state),
-              )
-            ],
-          )
-        ],
-      )),
+      body: ListView.builder(
+        itemCount: postList.length,
+        itemBuilder: (context, index) {
+          return getPost(context, postList[index], index);
+        },
+      ),
     );
-  }
-
-  List<Widget> getPosts(BuildContext context, PostList state) {
-    List<Widget> posts = [];
-    int index = 0;
-    // TODO: firestoreのpostのデータを挿入
-    for (var post in state.postList) {
-      posts.add(getPost(context, post, index));
-      index++;
-    }
-    return posts;
   }
 
   Widget getPost(BuildContext context, Post post, int index) {

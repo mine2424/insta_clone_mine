@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,13 +12,20 @@ class PostRepository {
   final _db = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
 
-  Future<String> addPostImageToStorage(
+  Future<Result<String>> addPostImageToStorage(
     String path,
     File file,
   ) async {
-    final snapshot = await _storage.ref(path).putFile(file);
+    late final TaskSnapshot snapshot;
 
-    return snapshot.ref.getDownloadURL();
+    try {
+      snapshot = await _storage.ref(path).putFile(file);
+    } on Exception catch (e) {
+      //TODO PostRepositoryでのエラー判別を考える
+      print(e);
+    }
+
+    return Result.value(await snapshot.ref.getDownloadURL());
   }
 
   Future<void> addPost({

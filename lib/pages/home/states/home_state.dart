@@ -15,6 +15,5 @@ class HomeState with _$HomeState {
   const factory HomeState({
     @fileKey File? postImageFile,
     @Default('') String postImage,
-    @Default('') String content,
   }) = _HomeState;
 }

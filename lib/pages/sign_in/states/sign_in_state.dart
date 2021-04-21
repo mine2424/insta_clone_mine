@@ -13,11 +13,7 @@ const fileKey = JsonKey(fromJson: _userImageFile, toJson: _userImageFile);
 @freezed
 class SignInState with _$SignInState {
   const factory SignInState({
-    @Default('') String name,
-    @Default('') String email,
-    @Default('') String password,
     @Default('') String userImage,
     @fileKey File? userImageFile,
-    @Default('') String message,
   }) = _SignInState;
 }

@@ -12,6 +12,7 @@ class SignInNotifier extends StateNotifier<SignInState> {
   late final nameController = TextEditingController();
   late final emailController = TextEditingController();
   late final passwordController = TextEditingController();
+  late final bioController = TextEditingController();
 
   @override
   void dispose() {
@@ -21,8 +22,6 @@ class SignInNotifier extends StateNotifier<SignInState> {
 
     super.dispose();
   }
-
-  void saveMessage(String value) => state = state.copyWith(message: value);
 
   void selectProfileImage() async {
     final pickedFile = await ImagePicker().getImage(

@@ -71,6 +71,8 @@ class _ConfigPageState extends State<ConfigPage> {
   Widget build(BuildContext context) {
     final userStatus = context.select((UserState value) => value).userStatus;
 
-    return (userStatus == UserStatus.email) ? HomePage() : SignInPage.wrapped();
+    return (userStatus == UserStatus.email)
+        ? HomePage.wrapped()
+        : SignInPage.wrapped();
   }
 }

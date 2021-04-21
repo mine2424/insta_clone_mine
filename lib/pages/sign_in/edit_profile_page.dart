@@ -57,16 +57,8 @@ class EditProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(hintText: 'Username'),
-                    onChanged: (value) {},
-                    validator: (value) => value!.trim().isEmpty
-                        ? 'Username cannot be empty.'
-                        : null,
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
+                    controller: notifier.bioController,
                     decoration: InputDecoration(hintText: 'Bio'),
-                    onChanged: (value) {},
                     validator: (value) =>
                         value!.trim().isEmpty ? 'Bio cannot be empty.' : null,
                   ),
@@ -81,7 +73,7 @@ class EditProfilePage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                          builder: (context) => HomePage.wrapped(),
                         ),
                       );
                     },
