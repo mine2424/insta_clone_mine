@@ -22,13 +22,13 @@ class PostRepository {
       snapshot = await _storage.ref(path).putFile(file);
     } on Exception catch (e) {
       //TODO PostRepositoryでのエラー判別を考える
+      Result.error('error');
       print(e);
     }
 
     return Result.value(await snapshot.ref.getDownloadURL());
   }
 
-//TODO post送れない問題...
   Future<void> addPost({
     required String dateId,
     required String postId,

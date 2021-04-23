@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_clone/pages/app/app_notifier.dart';
+import 'package:insta_clone/widgets/dialog/error_dialog.dart';
 
 import 'package:state_notifier/state_notifier.dart';
 
@@ -25,7 +26,7 @@ class UserNotifier extends StateNotifier<UserState> {
     final result = service.userId;
 
     //TODO: エラーなのかただユーザー登録されていないのかどっち？
-    if (result == '') {
+    if (result == null) {
       state = state.copyWith(userStatus: UserStatus.none);
       return;
     }
@@ -41,12 +42,16 @@ class UserNotifier extends StateNotifier<UserState> {
     );
 
     if (result.isError) {
-      //TODO: ここで使うにはappNotifierにglobalKeyとしてのcontextを設ける必要がある.
-      // ErrorDialog('サインインできませんでした。\nインターネット環境をご確認ください').show(context);
+      ErrorDialog('サインインできませんでした。\nインターネット環境をご確認ください').show(context);
       return UserStatus.error;
     }
 
     final uid = service.userId;
+
+    if (uid == null) {
+      //TODO: show error
+      return UserStatus.none;
+    }
 
     final addUserResult = await repository.addUser(uid: uid, name: name);
 
@@ -67,6 +72,11 @@ class UserNotifier extends StateNotifier<UserState> {
   ) async {
     final uid = service.userId;
 
+    if (uid == null) {
+      //TODO: show error.
+      return;
+    }
+
     final addUserResult = await repository.addUser(
       name: name,
       uid: uid,
@@ -82,6 +92,11 @@ class UserNotifier extends StateNotifier<UserState> {
 
   Future<void> fetchUser() async {
     final uid = service.userId;
+
+    if (uid == null) {
+      //TODO: show error
+      return;
+    }
 
     final userResult = await repository.fetchUser(uid);
 

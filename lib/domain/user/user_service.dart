@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserService {
   final _auth = FirebaseAuth.instance;
 
-  String get userId => _auth.currentUser?.uid ?? '';
+  String? get userId => _auth.currentUser?.uid ?? null;
 
   Future<Result<String>> signUpEmail({
     required String email,

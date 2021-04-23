@@ -27,6 +27,7 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.select((SignInState value) => value);
     final notifier = context.read<SignInNotifier>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -41,6 +41,7 @@ List<SingleChildWidget> get notifierProviders {
     ),
     StateNotifierProvider<PostNotifier, PostList>(
       create: (context) => PostNotifier(
+        appNotifier: context.read<AppNotifier>(),
         postRepository: context.read<PostRepository>(),
       ),
     ),

@@ -16,7 +16,8 @@ class LikerItem extends StatelessWidget {
     return Container(
       height: 45,
       padding: EdgeInsets.all(10),
-      child: FlatButton(
+      child: GestureDetector(
+        onTap: () {},
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,7 +109,6 @@ class LikerItem extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: () {},
       ),
     );
   }
