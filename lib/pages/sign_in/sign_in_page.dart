@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
+import 'package:insta_clone/pages/sign_in/edit_profile_page.dart';
 import 'package:insta_clone/domain/user/models/user.dart';
 import 'package:insta_clone/pages/app/user_notifier.dart';
-import 'package:insta_clone/pages/home/home_page.dart';
 import 'package:insta_clone/pages/sign_in/sign_in_notifier.dart';
 import 'package:insta_clone/pages/sign_in/states/sign_in_state.dart';
 
@@ -93,18 +93,18 @@ class SignInPage extends StatelessWidget {
                           // TODO: this save is that calling the [FormField]'s onSaved method with the current value.
                           _formKey.currentState!.save();
 
-                          final status =
-                              await context.read<UserNotifier>().addUser(
-                                    notifier.nameController.text,
-                                    notifier.emailController.text,
-                                    notifier.passwordController.text,
-                                  );
+                          final status = await context
+                              .read<UserNotifier>()
+                              .addUser(
+                                  notifier.nameController.text,
+                                  notifier.emailController.text,
+                                  notifier.passwordController.text);
 
                           if (status == UserStatus.success) {
                             await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => HomePage.wrapped(),
+                                builder: (_) => EditProfilePage.wrapped(),
                               ),
                             );
                           }

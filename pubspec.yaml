@@ -40,16 +40,3 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-
-  assets:
-    - lib/assets/my_profile.jpg
-    - lib/assets/their_profile.jpeg
-    - lib/assets/photo_1.jpeg
-    - lib/assets/follower2.jpg
-    - lib/assets/follower3.jpeg
-    - lib/assets/post2.jpg
-    - lib/assets/photo4.jpg
-    - lib/assets/photo5.jpg
-    - lib/assets/profile3.png
-    - lib/assets/profile4.png
-    - lib/assets/profile6.jpg

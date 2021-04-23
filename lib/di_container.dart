@@ -1,7 +1,6 @@
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
 import 'package:insta_clone/domain/post/post_repository.dart';
-import 'package:insta_clone/domain/post/post_service.dart';
 import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
 import 'package:insta_clone/pages/app/app_notifier.dart';
@@ -24,9 +23,6 @@ List<SingleChildWidget> get domainProviders {
     Provider<PostRepository>(
       create: (_) => PostRepository(),
     ),
-    Provider<PostService>(
-      create: (_) => PostService(),
-    )
   ];
 }
 

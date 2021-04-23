@@ -12,6 +12,8 @@ abstract class ModalBase<T> {
     );
   }
 
+  Widget modalContent(BuildContext context);
+
   Future<T?> show(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -23,11 +25,7 @@ abstract class ModalBase<T> {
           topRight: Radius.circular(16),
         ),
       ),
-      builder: (context) {
-        return _modal(context);
-      },
+      builder: (context) => _modal(context),
     );
   }
-
-  Widget modalContent(BuildContext context);
 }

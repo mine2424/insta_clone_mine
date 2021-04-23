@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:insta_clone/domain/user/user_service.dart';
-import 'package:insta_clone/pages/app/app_notifier.dart';
 
 import 'package:provider/provider.dart';
 
 import 'package:insta_clone/domain/user/models/user.dart';
+import 'package:insta_clone/pages/app/app_notifier.dart';
 import 'package:insta_clone/pages/app/states/user_state.dart';
 import 'package:insta_clone/pages/sign_in/sign_in_page.dart';
 import 'package:insta_clone/pages/app/user_notifier.dart';
@@ -61,9 +60,9 @@ class _ConfigPageState extends State<ConfigPage> {
     final userState = context.read<UserState>();
 
     if (userState.userStatus == UserStatus.email) {
-      final uid = context.read<UserService>().userId;
+      await userNotifier.fetchUser();
 
-      await userNotifier.fetchUser(uid);
+      print(context.read<UserState>().user);
     }
   }
 

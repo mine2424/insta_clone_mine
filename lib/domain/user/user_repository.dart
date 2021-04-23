@@ -16,6 +16,7 @@ class UserRepository {
     try {
       doc.set(
         {
+          'userId': uid,
           'name': name,
           'userImage': userImage,
           'message': message,
@@ -32,7 +33,7 @@ class UserRepository {
   Future<Result<User>> fetchUser(String uid) async {
     DocumentSnapshot snapshot;
 
-    final doc = _db.doc('private/users/$uid/readOnly');
+    final doc = _db.doc('/private/users/$uid/readOnly/');
 
     try {
       snapshot = await doc.get();

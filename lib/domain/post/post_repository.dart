@@ -28,6 +28,7 @@ class PostRepository {
     return Result.value(await snapshot.ref.getDownloadURL());
   }
 
+//TODO post送れない問題...
   Future<void> addPost({
     required String dateId,
     required String postId,
@@ -43,7 +44,7 @@ class PostRepository {
         'postImage': postImage,
         'user': {
           'name': user.name,
-          'uid': user.id,
+          'uid': user.userId,
           'userImage': user.userImage,
         },
         'createAt': FieldValue.serverTimestamp(),

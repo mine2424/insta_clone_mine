@@ -16,7 +16,7 @@ enum UserStatus {
 @freezed
 class User with _$User {
   const factory User({
-    @Default('') String id,
+    @Default('') String userId,
     @Default('') String name,
     @Default('') String message,
     @Default('') String userImage,

@@ -1,7 +1,5 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_clone/pages/app/app_notifier.dart';
-import 'package:insta_clone/widgets/dialog/error_dialog.dart';
 
 import 'package:state_notifier/state_notifier.dart';
 
@@ -57,7 +55,8 @@ class UserNotifier extends StateNotifier<UserState> {
       return UserStatus.error;
     }
 
-    fetchUser(uid);
+    await fetchUser();
+
     return UserStatus.success;
   }
 
@@ -81,7 +80,7 @@ class UserNotifier extends StateNotifier<UserState> {
     }
   }
 
-  Future<void> fetchUser(String uid) async {
+  Future<void> fetchUser() async {
     final uid = service.userId;
 
     final userResult = await repository.fetchUser(uid);
