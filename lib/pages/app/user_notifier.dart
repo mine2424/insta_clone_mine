@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:insta_clone/pages/app/app_notifier.dart';
-import 'package:insta_clone/widgets/dialog/error_dialog.dart';
+import 'dart:io';
 
 import 'package:state_notifier/state_notifier.dart';
 
+import 'package:insta_clone/pages/app/app_notifier.dart';
+import 'package:insta_clone/widgets/dialog/error_dialog.dart';
 import 'package:insta_clone/domain/user/models/user.dart';
 import 'package:insta_clone/domain/user/user_repository.dart';
 import 'package:insta_clone/domain/user/user_service.dart';
@@ -14,13 +14,11 @@ class UserNotifier extends StateNotifier<UserState> {
     required this.repository,
     required this.service,
     required this.appNotifier,
-    required this.context,
   }) : super(const UserState());
 
   final UserRepository repository;
   final UserService service;
   final AppNotifier appNotifier;
-  final BuildContext context;
 
   void listenAuthStatus() {
     final result = service.userId;
@@ -42,7 +40,10 @@ class UserNotifier extends StateNotifier<UserState> {
     );
 
     if (result.isError) {
+      final context = appNotifier.navigatorKey.currentContext!;
+
       ErrorDialog('サインインできませんでした。\nインターネット環境をご確認ください').show(context);
+
       return UserStatus.error;
     }
 
@@ -56,19 +57,19 @@ class UserNotifier extends StateNotifier<UserState> {
     final addUserResult = await repository.addUser(uid: uid, name: name);
 
     if (addUserResult.isError) {
-      // ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+      final context = appNotifier.navigatorKey.currentContext!;
+
+      ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+
       return UserStatus.error;
     }
-
-    await fetchUser();
 
     return UserStatus.success;
   }
 
   Future<void> addUserInfo(
-    String name,
-    String userImage,
-    String message,
+    File? userImageFile,
+    String? message,
   ) async {
     final uid = service.userId;
 
@@ -77,17 +78,44 @@ class UserNotifier extends StateNotifier<UserState> {
       return;
     }
 
-    final addUserResult = await repository.addUser(
-      name: name,
+    String? userImage;
+
+    if (userImageFile != null) {
+      userImage = await saveUserImage(userImageFile, uid);
+    }
+
+    final addUserResult = await repository.addUserInfo(
       uid: uid,
       message: message,
       userImage: userImage,
     );
 
     if (addUserResult.isError) {
-      // ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+      final context = appNotifier.navigatorKey.currentContext!;
+
+      ErrorDialog('ユーザー登録時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+
       return;
     }
+
+    await fetchUser();
+  }
+
+  Future<String> saveUserImage(File file, String uid) async {
+    final path = '/users/$uid';
+
+    final result = await repository.addUserImageToStorage(path, file);
+
+    if (result.isError) {
+      final context = appNotifier.navigatorKey.currentContext!;
+
+      ErrorDialog('画像が保存できませんでした').show(context);
+
+      //TODO: error handling
+      return '';
+    }
+
+    return result.asValue!.value;
   }
 
   Future<void> fetchUser() async {
@@ -101,7 +129,10 @@ class UserNotifier extends StateNotifier<UserState> {
     final userResult = await repository.fetchUser(uid);
 
     if (userResult.isError) {
-      // ErrorDialog('ユーザー情報取得時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+      final context = appNotifier.navigatorKey.currentContext!;
+
+      ErrorDialog('ユーザー情報取得時にエラーが発生しました。\nインターネット環境をご確認ください').show(context);
+
       return;
     }
 

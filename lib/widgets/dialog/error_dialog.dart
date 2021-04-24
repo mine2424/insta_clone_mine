@@ -9,7 +9,10 @@ class ErrorDialog extends DialogBase<void> {
 
   @override
   Widget? title(BuildContext context) {
-    return Text('エラー');
+    return Text(
+      'エラー',
+      style: TextStyle(color: Colors.red[600]),
+    );
   }
 
   @override
@@ -21,8 +24,11 @@ class ErrorDialog extends DialogBase<void> {
   List<Widget> actions(BuildContext context) {
     return [
       TextButton(
-        onPressed: () {},
-        child: Text('閉じる'),
+        onPressed: () => Navigator.of(context).pop(),
+        child: Text(
+          '閉じる',
+          style: TextStyle(color: Colors.black),
+        ),
       )
     ];
   }

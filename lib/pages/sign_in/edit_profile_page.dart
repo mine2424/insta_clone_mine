@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:insta_clone/pages/app/user_notifier.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insta_clone/pages/home/home_page.dart';
@@ -27,6 +28,7 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.select((SignInState value) => value);
     final notifier = context.read<SignInNotifier>();
+    final userNotifier = context.read<UserNotifier>();
 
     return Scaffold(
       appBar: AppBar(
@@ -70,8 +72,12 @@ class EditProfilePage extends StatelessWidget {
                       onPrimary: Theme.of(context).primaryColor,
                       textStyle: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
+                    onPressed: () async {
+                      await userNotifier.addUserInfo(
+                        state.userImageFile,
+                        notifier.bioController.text,
+                      );
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => HomePage.wrapped(),

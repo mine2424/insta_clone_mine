@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:insta_clone/pages/app/user_notifier.dart';
+import 'package:insta_clone/pages/post/post_page.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insta_clone/common/constants/theme.dart';
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
     final notifier = context.read<HomeNotifier>();
     final postList = context.watch<PostList>().postList;
     final user = context.select((UserState value) => value).user;
-    final state = context.watch<HomeState>();
+    final state = context.select((HomeState value) => value);
 
     return Scaffold(
       appBar: AppBar(
@@ -53,11 +54,15 @@ class HomePage extends StatelessWidget {
             color: Colors.black,
           ),
           onPressed: () {
-            PostModal(
-              user: user,
-              notifier: notifier,
-              state: state,
-            ).show(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => PostPage(
+                  notifier: notifier,
+                  state: state,
+                  user: user,
+                ),
+              ),
+            );
           },
         ),
         backgroundColor: Colors.white,

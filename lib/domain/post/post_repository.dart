@@ -3,6 +3,7 @@ import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:insta_clone/domain/post/error/post_error.dart';
 
 import 'package:insta_clone/domain/post/models/comment.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
@@ -22,7 +23,7 @@ class PostRepository {
       snapshot = await _storage.ref(path).putFile(file);
     } on Exception catch (e) {
       //TODO PostRepositoryでのエラー判別を考える
-      Result.error('error');
+      Result.error(PostError.error);
       print(e);
     }
 
@@ -98,13 +99,13 @@ class PostRepository {
       data = await doc.get();
     } on Exception catch (e) {
       print(e);
+      return Result.error(PostError.error);
     }
 
     var list = <Post>[];
 
     if (data.docs.isEmpty) {
-      // TODO(mine2424): エラー処理作成
-      return Result.error('error');
+      return Result.error(PostError.noData);
     }
 
     for (var item in data.docs) {

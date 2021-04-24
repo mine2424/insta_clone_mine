@@ -9,9 +9,12 @@ abstract class DialogBase<T> {
           ? null
           : Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(''),
+              child: title(context),
             ),
-      content: content(context),
+      content: Padding(
+        padding: const EdgeInsets.all(8),
+        child: content(context),
+      ),
       actions: actions(context),
     );
   }

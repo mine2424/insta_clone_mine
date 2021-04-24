@@ -1,3 +1,4 @@
+import 'package:insta_clone/domain/post/error/post_error.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 import 'package:insta_clone/common/helper/helpers.dart';
@@ -18,13 +19,22 @@ class PostNotifier extends StateNotifier<PostList> {
   final PostRepository postRepository;
 
   Future<void> fetchPost() async {
-    final allPostsResult =
-        await postRepository.fetchPost(dateId: await Helpers.dateId);
+    final allPostsResult = await postRepository.fetchPost(
+      dateId: await Helpers.dateId,
+    );
 
     if (allPostsResult.isError) {
-      final context = appNotifier.navigatorKey.currentContext!;
+      switch (allPostsResult.asError!.error) {
+        case PostError.error:
+          final context = appNotifier.navigatorKey.currentContext!;
+          ErrorDialog('投稿の取得に失敗しました').show(context);
+          break;
 
-      ErrorDialog('投稿の取得に失敗しました').show(context);
+        case PostError.noData:
+          break;
+
+        default:
+      }
 
       return;
     }
