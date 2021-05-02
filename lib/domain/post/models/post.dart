@@ -22,5 +22,7 @@ class Post with _$Post {
     User? user,
   }) = _Post;
 
+  const Post._();
+
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 }

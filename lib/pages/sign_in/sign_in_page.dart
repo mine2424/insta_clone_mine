@@ -90,7 +90,6 @@ class SignInPage extends StatelessWidget {
                       child: const Text('Sign Up'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          // TODO: this save is that calling the [FormField]'s onSaved method with the current value.
                           _formKey.currentState!.save();
 
                           final status = await context

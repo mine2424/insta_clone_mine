@@ -34,7 +34,6 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
     final postId = const Uuid().v4();
 
-    // TODO: storageに画像を保存できたか確認とエラー処理
     if (state.postImageFile != null) {
       final imagePathResult = await postRepository.addPostImageToStorage(
         '/posts/$dateId/$postId',

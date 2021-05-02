@@ -139,5 +139,7 @@ class UserNotifier extends StateNotifier<UserState> {
     final user = userResult.asValue!.value;
 
     state = state.copyWith(user: user);
+    //TODO: 確認
+    print(state.user);
   }
 }

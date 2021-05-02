@@ -243,7 +243,7 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_Post with DiagnosticableTreeMixin implements _Post {
+class _$_Post extends _Post with DiagnosticableTreeMixin {
   const _$_Post(
       {this.id = '',
       this.title = '',
@@ -253,7 +253,8 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
       this.comments = const <Comment>[],
       this.isLiked = false,
       this.isSaved = false,
-      this.user});
+      this.user})
+      : super._();
 
   factory _$_Post.fromJson(Map<String, dynamic> json) =>
       _$_$_PostFromJson(json);
@@ -359,7 +360,7 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
   }
 }
 
-abstract class _Post implements Post {
+abstract class _Post extends Post {
   const factory _Post(
       {String id,
       String title,
@@ -370,6 +371,7 @@ abstract class _Post implements Post {
       bool isLiked,
       bool isSaved,
       User? user}) = _$_Post;
+  const _Post._() : super._();
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 

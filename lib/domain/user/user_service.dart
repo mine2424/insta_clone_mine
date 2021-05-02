@@ -10,7 +10,7 @@ class UserService {
     required String email,
     required String password,
   }) async {
-    UserCredential? user;
+    late final UserCredential user;
 
     try {
       user = await _auth.createUserWithEmailAndPassword(

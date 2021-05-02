@@ -3,9 +3,8 @@ import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:insta_clone/domain/post/error/post_error.dart';
 
-import 'package:insta_clone/domain/post/models/comment.dart';
+import 'package:insta_clone/domain/post/error/post_error.dart';
 import 'package:insta_clone/domain/post/models/post.dart';
 import 'package:insta_clone/domain/user/models/user.dart';
 
@@ -115,56 +114,5 @@ class PostRepository {
     }
 
     return Result.value(list);
-  }
-
-  Future<void> addComment({
-    required String dateId,
-    required String postId,
-    required Map<String, dynamic> comment,
-  }) async {
-    final doc = _db.doc('public/posts/$dateId/$postId');
-
-    try {
-      await doc.set(
-        {
-          'comment': comment,
-          'createAt': FieldValue.serverTimestamp(),
-        },
-        SetOptions(merge: true),
-      );
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> editComment({
-    required String dateId,
-    required String postId,
-    required String comment,
-    required String dateOfComment,
-    required int like,
-    required String uid,
-  }) async {
-    final doc = _db.doc('public/posts/$dateId/$postId');
-
-    try {
-      await doc.update({'comment': comment});
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> deleteComment({
-    required String dateId,
-    required String postId,
-    required List<Comment> list,
-  }) async {
-    final doc = _db.doc('public/posts/$dateId/$postId');
-
-    try {
-      await doc.set({'comment': list});
-    } on Exception catch (e) {
-      print(e);
-    }
   }
 }

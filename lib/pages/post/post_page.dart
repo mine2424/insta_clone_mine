@@ -21,7 +21,7 @@ class PostPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Instagram",
+          'Instagram',
           style: TextStyleTheme.textStyleBold,
           textAlign: TextAlign.left,
         ),
@@ -69,8 +69,9 @@ class PostPage extends StatelessWidget {
                   onPrimary: Theme.of(context).primaryColor,
                   textStyle: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
-                  notifier.addPost(user);
+                onPressed: () async {
+                  //TODO: userにuserImageが入っていない...
+                  await notifier.addPost(user);
                   Navigator.of(context).pop();
                 },
                 child: const Text(

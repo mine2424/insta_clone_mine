@@ -80,16 +80,17 @@ class UserRepository {
 
     try {
       snapshot = await doc.get();
-      print(snapshot.data()!);
     } catch (e) {
       print(e);
       return Result.error(e);
     }
 
-    if (snapshot.exists) {
-      return Result.value(User.fromJson(snapshot.data()!));
+    if (!snapshot.exists) {
+      return Result.error('no data');
     }
 
-    return Result.error('no data');
+    final data = snapshot.data()!;
+
+    return Result.value(User.fromJson(data));
   }
 }

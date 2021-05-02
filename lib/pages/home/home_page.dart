@@ -13,7 +13,6 @@ import 'package:insta_clone/pages/home/home_notifier.dart';
 import 'package:insta_clone/pages/home/states/home_state.dart';
 import 'package:insta_clone/pages/home/widgets/post_item.dart';
 import 'package:insta_clone/domain/post/models/post_list.dart';
-import 'package:insta_clone/widgets/modal/post_modal.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage._();
@@ -56,11 +55,9 @@ class HomePage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => PostPage(
-                  notifier: notifier,
-                  state: state,
-                  user: user,
-                ),
+                builder: (_) {
+                  return PostPage(notifier: notifier, state: state, user: user);
+                },
               ),
             );
           },
@@ -70,10 +67,7 @@ class HomePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: postList.length,
         itemBuilder: (context, index) {
-          return PostItem(
-            post: postList[index],
-            index: index,
-          );
+          return PostItem(post: postList[index], index: index);
         },
       ),
     );
