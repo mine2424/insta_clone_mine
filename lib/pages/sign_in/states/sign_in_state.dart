@@ -6,14 +6,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_in_state.freezed.dart';
 
-File _userImageFile(dynamic file) => File(file);
-
-const fileKey = JsonKey(fromJson: _userImageFile, toJson: _userImageFile);
-
 @freezed
 class SignInState with _$SignInState {
   const factory SignInState({
     @Default('') String userImage,
-    @fileKey File? userImageFile,
+    File? userImageFile,
   }) = _SignInState;
 }

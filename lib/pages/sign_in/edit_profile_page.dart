@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:insta_clone/domain/user/user_repository.dart';
+import 'package:insta_clone/domain/user/user_service.dart';
+import 'package:insta_clone/pages/app/app_notifier.dart';
 import 'package:insta_clone/pages/app/user_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +19,13 @@ class EditProfilePage extends StatelessWidget {
     return MultiProvider(
       providers: [
         StateNotifierProvider<SignInNotifier, SignInState>(
-          create: (context) => SignInNotifier(),
+          create: (context) {
+            return SignInNotifier(
+              repository: context.read<UserRepository>(),
+              service: context.read<UserService>(),
+              appNotifier: context.read<AppNotifier>(),
+            );
+          },
           child: const EditProfilePage(),
         ),
       ],
@@ -73,7 +82,7 @@ class EditProfilePage extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      await userNotifier.addUserInfo(
+                      await notifier.addUserInfo(
                         state.userImageFile,
                         notifier.bioController.text,
                       );

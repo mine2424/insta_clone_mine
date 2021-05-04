@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SignInStateTearOff {
   const _$SignInStateTearOff();
 
-  _SignInState call({String userImage = '', @fileKey File? userImageFile}) {
+  _SignInState call({String userImage = '', File? userImageFile}) {
     return _SignInState(
       userImage: userImage,
       userImageFile: userImageFile,
@@ -30,7 +30,6 @@ const $SignInState = _$SignInStateTearOff();
 /// @nodoc
 mixin _$SignInState {
   String get userImage => throw _privateConstructorUsedError;
-  @fileKey
   File? get userImageFile => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -43,7 +42,7 @@ abstract class $SignInStateCopyWith<$Res> {
   factory $SignInStateCopyWith(
           SignInState value, $Res Function(SignInState) then) =
       _$SignInStateCopyWithImpl<$Res>;
-  $Res call({String userImage, @fileKey File? userImageFile});
+  $Res call({String userImage, File? userImageFile});
 }
 
 /// @nodoc
@@ -79,7 +78,7 @@ abstract class _$SignInStateCopyWith<$Res>
           _SignInState value, $Res Function(_SignInState) then) =
       __$SignInStateCopyWithImpl<$Res>;
   @override
-  $Res call({String userImage, @fileKey File? userImageFile});
+  $Res call({String userImage, File? userImageFile});
 }
 
 /// @nodoc
@@ -112,13 +111,12 @@ class __$SignInStateCopyWithImpl<$Res> extends _$SignInStateCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_SignInState with DiagnosticableTreeMixin implements _SignInState {
-  const _$_SignInState({this.userImage = '', @fileKey this.userImageFile});
+  const _$_SignInState({this.userImage = '', this.userImageFile});
 
   @JsonKey(defaultValue: '')
   @override
   final String userImage;
   @override
-  @fileKey
   final File? userImageFile;
 
   @override
@@ -160,13 +158,12 @@ class _$_SignInState with DiagnosticableTreeMixin implements _SignInState {
 }
 
 abstract class _SignInState implements SignInState {
-  const factory _SignInState({String userImage, @fileKey File? userImageFile}) =
+  const factory _SignInState({String userImage, File? userImageFile}) =
       _$_SignInState;
 
   @override
   String get userImage => throw _privateConstructorUsedError;
   @override
-  @fileKey
   File? get userImageFile => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
